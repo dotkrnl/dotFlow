@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    flowboard.cpp \
+    flowgameview.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    flowboard.h \
+    flowgameview.h \
+    flowglobal.h
 
 FORMS    += mainwindow.ui
