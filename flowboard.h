@@ -25,6 +25,8 @@ public:
     int getWidth(void);
 
     DotPairVector getDotPairs(void);
+    int getDotPairsCount(void);
+    int getColorAt(QPoint location);
 
     /*
      * Load gameboard from description file:
@@ -47,7 +49,7 @@ signals:
      * Emit after board information is ready
      * when board is loaded or reloaded
      */
-    void boardLoaded(void);
+    void boardLoaded(int dot_pair_count);
 
 public slots:
 

@@ -20,6 +20,20 @@ DotPairVector FlowBoard::getDotPairs(void)
     return m_pairs;
 }
 
+int FlowBoard::getDotPairsCount(void)
+{
+    return m_pairs.size();
+}
+
+int FlowBoard::getColorAt(QPoint location) {
+    for (int i = 0; i < m_pairs.size(); i++) {
+        if (m_pairs[i].first  == location ||
+            m_pairs[i].second == location)
+            return i;
+    }
+    return -1;
+}
+
 void FlowBoard::setHeight(int height)
 {
     m_height = height;
@@ -54,5 +68,5 @@ void FlowBoard::loadFrom(QFile *boardDesc)
         ));
     }
 
-    emit boardLoaded();
+    emit boardLoaded(getDotPairsCount());
 }

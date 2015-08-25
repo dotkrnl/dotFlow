@@ -8,33 +8,12 @@ FlowGameView::FlowGameView(QWidget *parent)
     QFile file("/Users/dotkrnl/Workspace/qt/dotflow/testdata");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     m_board->loadFrom(&file);
-    connect(m_board, SIGNAL(boardLoaded()),
-            this, SLOT(boardChangedEvent()));
+    connect(m_board, SIGNAL(boardLoaded(int)),
+            this, SLOT(boardChanged()));
 }
 
-void FlowGameView::paintEvent(QPaintEvent *event) {
-    QPainter painter(this);
-    painter.setRenderHints(
-        QPainter::Antialiasing
-      | QPainter::TextAntialiasing);
-    painter.translate(m_hzero, m_hzero);
-
-    drawBoard(painter);
-    drawDots(painter);
-}
-
-void FlowGameView::resizeEvent(QResizeEvent* event)
+void FlowGameView::recalculateCommonSize(void)
 {
-    QWidget::resizeEvent(event);
-    this->recalculateCommonSize();
-}
-
-void FlowGameView::boardChanged(void) {
-    this->update();
-    this->recalculateCommonSize();
-}
-
-void FlowGameView::recalculateCommonSize(void) {
     int raw_height = this->height();
     int raw_width  = this->width();
 
@@ -49,7 +28,33 @@ void FlowGameView::recalculateCommonSize(void) {
     m_width = m_ppc * m_col;
 }
 
-void FlowGameView::drawBoard(QPainter &painter) {
+void FlowGameView::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    this->recalculateCommonSize();
+}
+
+void FlowGameView::boardChanged(void)
+{
+    this->update();
+    this->recalculateCommonSize();
+}
+
+void FlowGameView::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHints(
+        QPainter::Antialiasing
+      | QPainter::TextAntialiasing);
+    painter.translate(m_hzero, m_hzero);
+
+    drawBoard(painter);
+    drawDots(painter);
+    drawMouse(painter);
+}
+
+void FlowGameView::drawBoard(QPainter &painter)
+{
     QPen boardPen(FLOW_BORDER);
     boardPen.setWidth(FLOW_BORDER_SIZE);
     painter.setPen(boardPen);
@@ -66,7 +71,8 @@ void FlowGameView::drawBoard(QPainter &painter) {
     }
 }
 
-void FlowGameView::drawDots(QPainter &painter) {
+void FlowGameView::drawDots(QPainter &painter)
+{
     DotPairVector dot_pairs = m_board->getDotPairs();
     for (int i = 0; i < dot_pairs.size(); i++) {
         painter.setPen(QPen(CURRENT_THEME[i]));
@@ -76,13 +82,43 @@ void FlowGameView::drawDots(QPainter &painter) {
     }
 }
 
-void FlowGameView::drawDot(QPainter &painter, QPoint dot) {
+void FlowGameView::drawDot(QPainter &painter, QPoint dot)
+{
     int dot_diameter = qMin(m_ppl, m_ppc) * FLOW_DOT_SIZE;
     int x = dot.x(), y = dot.y();
     int center_x =  x * m_ppc + m_ppc / 2;
     int center_y =  y * m_ppl + m_ppl / 2;
     painter.drawEllipse(center_x - dot_diameter / 2,
                         center_y - dot_diameter / 2,
-                        dot_diameter,
-                        dot_diameter);
+                        dot_diameter, dot_diameter);
+}
+
+void FlowGameView::drawMouse(QPainter &painter)
+{
+    if (!m_pressed) return;
+    painter.setPen(QPen(MOUSE_COLOR));
+    painter.setBrush(QBrush(MOUSE_COLOR));
+    int dot_diameter = qMin(m_ppl, m_ppc) * FLOW_MOUSE_SIZE;
+    painter.drawEllipse(m_mouse_pos.x() - dot_diameter / 2,
+                        m_mouse_pos.y() - dot_diameter / 2,
+                        dot_diameter, dot_diameter);
+}
+
+void FlowGameView::mousePressEvent(QMouseEvent *event)
+{
+    m_pressed = true;
+    m_mouse_pos = event->pos() - QPoint(m_wzero, m_hzero);
+    this->update();
+}
+
+void FlowGameView::mouseMoveEvent(QMouseEvent *event)
+{
+    m_mouse_pos = event->pos() - QPoint(m_wzero, m_hzero);
+    this->update();
+}
+
+void FlowGameView::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_pressed = false;
+    this->update();
 }
