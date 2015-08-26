@@ -23,7 +23,15 @@ protected:
     int m_current_color;
     PointSeries m_current_route;
 
+private:
+    bool isTerminalDotsOfOthers(QPoint location);
+    void truncateCurrentRoute(QPoint terminal);
+    bool isNearTheEndOfRoute(QPoint location);
+    bool isOutOfTerminal(QPoint location);
+    bool isInRange(QPoint location);
+
 signals:
+    void colorChanged(int color);
 
 public slots:
     void initFlowContext(int color_count);

@@ -6,7 +6,7 @@ FlowContext::FlowContext(FlowBoard *mother, QObject *parent)
 {
     connect(m_board, SIGNAL(boardLoaded(int)),
             this, SLOT(initFlowContext(int)));
-    initFlowContext(m_board->getDotPairsCount());
+    initFlowContext(m_board->getColorCount());
 }
 
 void FlowContext::initFlowContext(int color_count)

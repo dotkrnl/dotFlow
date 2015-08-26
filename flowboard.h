@@ -25,7 +25,7 @@ public:
     int getWidth(void);
 
     DotPairVector getDotPairs(void);
-    int getDotPairsCount(void);
+    int getColorCount(void);
     int getColorAt(QPoint location);
 
     /*
