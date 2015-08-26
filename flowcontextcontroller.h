@@ -2,6 +2,7 @@
 #define FLOWCONTEXTCONTROLLER_H
 
 #include <QObject>
+#include <QStack>
 #include <QPoint>
 #include "flowcontext.h"
 
@@ -18,7 +19,7 @@ public:
 protected:
     FlowBoard *m_board;
 
-    // TODO: undo function.
+    QStack<FlowContext *> m_undo;
     FlowContext *m_stable;
     FlowContext *m_beta;
 
@@ -44,10 +45,14 @@ signals:
     void colorChanged(int color);
     void movesChanged(int moves);
     void realTimeRatioChanged(double ratio);
+
+    void flowTruncated(void);
+    void flowAddedWithoutTruncation(void);
     void gameWon(void);
 
 public slots:
     void restart(void);
+    void undo(void);
 
     void startRoute(QPoint location);
     void newRoutePoint(QPoint location);

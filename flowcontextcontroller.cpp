@@ -2,9 +2,9 @@
 
 FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
     : QObject(parent),
+      m_board(mother),
       m_stable(new FlowContext(mother, this)),
       m_beta(new FlowContext(mother, this)),
-      m_board(mother),
       m_previous_legal_color(-1)
 {
     connect(m_board, SIGNAL(boardLoaded(int)),
@@ -22,6 +22,23 @@ void FlowContextController::restart(void)
     setCurrentColor(-1);
     setMoves(0);
     m_previous_legal_color = -1;
+
+    while (m_undo.size())
+        delete m_undo.pop();
+}
+
+void FlowContextController::undo(void)
+{
+    if (!m_undo.size()) return;
+
+    setCurrentColor(-1);
+    setMoves(getMoves() - 1);
+    m_previous_legal_color = -1;
+
+    FlowContext *top = m_undo.pop();
+    top->cloneTo(*m_stable);
+    top->cloneTo(*m_beta);
+    delete top;
 }
 
 void FlowContextController::startRoute(QPoint location)
@@ -40,8 +57,12 @@ void FlowContextController::startRoute(QPoint location)
         return;
 
     // update moves count
-    if (getCurrentColor() != m_previous_legal_color)
+    if (getCurrentColor() != m_previous_legal_color) {
         setMoves(getMoves() + 1);
+        // save for undo
+        m_undo.push(new FlowContext(m_board, this));
+        m_stable->cloneTo(*m_undo.top());
+    }
     m_previous_legal_color = getCurrentColor();
 
     if (dot_color != -1)
@@ -77,6 +98,11 @@ void FlowContextController::newRoutePoint(QPoint location)
 
 void FlowContextController::endRoute(void)
 {
+    if (m_beta->isTruncatedComparedTo(*m_stable))
+        emit flowTruncated();
+    else if (m_stable->isTruncatedComparedTo(*m_beta))
+        emit flowAddedWithoutTruncation();
+
     setCurrentColor(-1);
     m_beta->cloneTo(*m_stable);
 }

@@ -33,6 +33,26 @@ PointSeries FlowContext::getRouteOf(int color)
     return m_context[color];
 }
 
+bool FlowContext::isTruncatedComparedTo(FlowContext &ot)
+{
+    for (int c = 0; c < ot.m_context.size(); c++) {
+        int o_size = ot.m_context[c].size();
+        if (!(o_size > 1)) continue;
+
+        QPoint o_tail = ot.m_context[c][o_size-1];
+        int o_color = ot.m_board->getColorAt(o_tail);
+        if (!(o_color == c)) continue;
+
+        int m_size = m_context[c].size();
+        if (m_size <= 1) return true;
+
+        QPoint m_tail = m_context[c][m_size-1];
+        int m_color = m_board->getColorAt(m_tail);
+        if (m_color != c) return true;
+    }
+    return false;
+}
+
 void FlowContext::addRoute(int color, PointSeries route)
 {
     for (int d = 0; d < route.size(); d++) {

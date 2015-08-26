@@ -97,6 +97,8 @@ void FlowGameView::paintEvent(QPaintEvent *event)
 void FlowGameView::drawBoard(QPainter &painter)
 {
     QPen boardPen(FLOW_BORDER);
+    boardPen.setJoinStyle(Qt::RoundJoin);
+    boardPen.setCapStyle(Qt::RoundCap);
     boardPen.setWidth(FLOW_BORDER_SIZE);
     painter.setPen(boardPen);
 

@@ -20,6 +20,8 @@ public:
     int getColorAt(QPoint location);
     PointSeries getRouteOf(int color);
 
+    bool isTruncatedComparedTo(FlowContext &ot);
+
 protected:
     QVector<PointSeries> m_context;
     FlowBoard *m_board;
