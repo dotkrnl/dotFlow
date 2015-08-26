@@ -54,6 +54,8 @@ void FlowBoard::loadFrom(QFile *boardDesc)
 {
     QTextStream input(boardDesc);
 
+    m_pairs.resize(0);
+
     int height, width;
     input >> width >> height;
     input.skipWhiteSpace();

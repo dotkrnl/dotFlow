@@ -11,17 +11,23 @@ class FlowContextController : public QObject
 
 public:
     explicit FlowContextController(FlowBoard *mother, QObject *parent = 0);
-    FlowContext *getDisplayContext(void);
+    FlowContext *getDisplayContext(void) { return m_beta; }
+
+    int getMoves(void) { return m_moves; }
 
 protected:
+    FlowBoard *m_board;
+
     // TODO: undo function.
     FlowContext *m_stable;
     FlowContext *m_beta;
 
-    FlowBoard *m_board;
-
-    int m_current_color;
     PointSeries m_current_route;
+
+    void setCurrentColor(int color);
+    void setMoves(int moves);
+
+    int getCurrentColor(void) { return m_current_color; }
 
 private:
     bool isTerminalDotsOfOthers(QPoint location);
@@ -30,15 +36,25 @@ private:
     bool isOutOfTerminal(QPoint location);
     bool isInRange(QPoint location);
 
+    int m_current_color;
+    int m_previous_legal_color;
+    int m_moves;
+
 signals:
     void colorChanged(int color);
+    void movesChanged(int moves);
+    void realTimeRatioChanged(double ratio);
+    void gameWon(void);
 
 public slots:
-    void initFlowContext(int color_count);
+    void restart(void);
+
     void startRoute(QPoint location);
     void newRoutePoint(QPoint location);
     void endRoute(void);
 
+    void betaRatioChanged(double ratio);
+    void stableRatioChanged(double ratio);
 };
 
 #endif // FLOWCONTEXTCONTROLLER_H

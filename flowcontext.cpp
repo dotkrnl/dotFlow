@@ -6,6 +6,8 @@ FlowContext::FlowContext(FlowBoard *mother, QObject *parent)
 {
     connect(m_board, SIGNAL(boardLoaded(int)),
             this, SLOT(initFlowContext(int)));
+    connect(this, SIGNAL(contextUpdated()),
+            this, SLOT(calculateRatio()));
     initFlowContext(m_board->getColorCount());
 }
 
@@ -13,6 +15,7 @@ void FlowContext::initFlowContext(int color_count)
 {
     m_context.resize(0);
     m_context.resize(color_count);
+    emit contextUpdated();
 }
 
 int FlowContext::getColorAt(QPoint location)
@@ -49,4 +52,16 @@ void FlowContext::cloneTo(FlowContext &dest, bool update)
 {
     dest.m_context = m_context;
     if (update) emit dest.contextUpdated();
+}
+
+void FlowContext::calculateRatio(void)
+{
+    int total = m_board->getWidth() *
+                m_board->getHeight();
+
+    int done = 0;
+    for (int c = 0; c < m_context.size(); c++)
+        done += m_context[c].size();
+
+    emit contextRatioChanged(double(done) / total);
 }

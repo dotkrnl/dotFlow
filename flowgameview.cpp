@@ -2,18 +2,20 @@
 
 FlowGameView::FlowGameView(QWidget *parent)
     : QWidget(parent),
-      m_board(new FlowBoard(this)), // TODO: should be an input
       m_mouse_color(-1)
 {
-    // TODO: should be managed by mainwindow
-    QFile file("/Users/dotkrnl/Workspace/qt/dotflow/testdata");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    m_board->loadFrom(&file);
+}
+
+void FlowGameView::useBoard(FlowBoard *board)
+{
+    m_board = board;
     connect(m_board, SIGNAL(boardLoaded(int)),
             this, SLOT(boardChanged()));
+}
 
-    // TODO: should be managed by mainwindow
-    m_controller = new FlowContextController(m_board, this);
+void FlowGameView::useController(FlowContextController *controller)
+{
+    m_controller = controller;
     connect(m_controller, SIGNAL(colorChanged(int)),
             this, SLOT(mouseColorChanged(int)));
     m_context = m_controller->getDisplayContext();
@@ -149,8 +151,18 @@ void FlowGameView::drawContext(QPainter &painter)
 {
     for (int c = 0; c < m_board->getColorCount(); c++) {
         PointSeries route = m_context->getRouteOf(c);
-        for (int i = 1; i < route.size(); i++)
-            drawRoundedLine(painter, route[i-1], route[i], c);
+        int line_width = m_relative_size * FLOW_LINE_RSIZE;
+
+        QPen boardPen(CURRENT_LINE_THEME[c]);
+        boardPen.setJoinStyle(Qt::RoundJoin);
+        boardPen.setCapStyle(Qt::RoundCap);
+        boardPen.setWidth(line_width);
+        painter.setPen(boardPen);
+
+        QVector<QPoint> centers;
+        for (int i = 0; i < route.size(); i++)
+            centers.append(encodeLocation(route[i]));
+        painter.drawPolyline(centers);
     }
 }
 
@@ -158,42 +170,14 @@ void FlowGameView::drawContextBoard(QPainter &painter)
 {
     for (int c = 0; c < m_board->getColorCount(); c++) {
         PointSeries route = m_context->getRouteOf(c);
-        for (int i = 1; i < route.size(); i++) {
-            QPoint from = encodeLocation(route[i-1]);
-            QPoint to   = encodeLocation(route[i]);
-            QPen boardPen(CURRENT_CONTEXT_THEME[c]);
-            boardPen.setWidth(m_relative_size);
-            painter.setPen(boardPen);
-            painter.drawLine(from, to);
+        for (int i = 0; i < route.size(); i++) {
+            QPoint center = encodeLocation(route[i]);
+            QPoint size   = QPoint(m_ppc / 2, m_ppl / 2);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(CURRENT_CONTEXT_THEME[c]));
+            painter.drawRect(QRect(center - size, center + size));
         }
     }
-}
-
-void FlowGameView::drawRoundedLine(QPainter &painter,
-                                   QPoint f, QPoint t, int color)
-{
-    QPoint from = encodeLocation(f);
-    QPoint to   = encodeLocation(t);
-
-    int line_width = m_relative_size * FLOW_LINE_RSIZE;
-    if (line_width & 1) line_width++; // even number fix
-
-    int line_length = std::sqrt(
-        double(QPoint::dotProduct(to - from, to - from)));
-    QPoint unit = (to - from) / line_length;
-
-    // draw line
-    QPen boardPen(CURRENT_LINE_THEME[color]);
-    boardPen.setWidth(line_width);
-    painter.setPen(boardPen);
-    painter.drawLine(from + unit * line_width / 2,
-                     to   - unit * line_width / 2);
-
-    // draw round
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(CURRENT_LINE_THEME[color]));
-    drawRound(painter, from, line_width);
-    drawRound(painter, to  , line_width);
 }
 
 void FlowGameView::drawRound(QPainter &painter,

@@ -21,13 +21,15 @@ class FlowGameView : public QWidget
 public:
     explicit FlowGameView(QWidget *parent = 0);
 
+    void useBoard(FlowBoard *board);
+    void useController(FlowContextController *controller);
+
 protected:
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
 
     FlowBoard *m_board;
     FlowContext *m_context;
-
     FlowContextController *m_controller;
 
     bool m_pressed;
@@ -56,7 +58,6 @@ private:
     void drawContextBoard(QPainter &painter);
 
     void drawDot(QPainter &painter, QPoint dot, int color);
-    void drawRoundedLine(QPainter &painter, QPoint f, QPoint t, int color);
     void drawRound(QPainter &painter, QPoint center, int diameter);
 
     void drawMouse(QPainter &painter);

@@ -21,9 +21,13 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     flowboard.h \
-    flowgameview.h \
     flowglobal.h \
     flowcontext.h \
-    flowcontextcontroller.h
+    flowcontextcontroller.h \
+    flowgameview.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    gameinfo.qrc \
+    fonts.qrc

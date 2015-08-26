@@ -26,9 +26,11 @@ protected:
 
 signals:
     void contextUpdated(void);
+    void contextRatioChanged(double ratio);
 
 public slots:
     void initFlowContext(int color_count);
+    void calculateRatio(void);
 
 };
 

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>res/fontawesome.ttf</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/gameinfo">
+        <file>res/5x5/1</file>
+    </qresource>
+</RCC>

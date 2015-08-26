@@ -4,19 +4,24 @@ FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
     : QObject(parent),
       m_stable(new FlowContext(mother, this)),
       m_beta(new FlowContext(mother, this)),
-      m_board(mother)
+      m_board(mother),
+      m_previous_legal_color(-1)
 {
     connect(m_board, SIGNAL(boardLoaded(int)),
-            this, SLOT(initFlowContext(int)));
+            this, SLOT(restart()));
+    connect(m_stable, SIGNAL(contextRatioChanged(double)),
+            this, SLOT(stableRatioChanged(double)));
+    connect(m_beta, SIGNAL(contextRatioChanged(double)),
+            this, SLOT(betaRatioChanged(double)));
+    setCurrentColor(-1);
+    setMoves(0);
 }
 
-FlowContext *FlowContextController::getDisplayContext(void) {
-    return m_beta;
-}
-
-void FlowContextController::initFlowContext(int color_count)
+void FlowContextController::restart(void)
 {
-    // TODO: clear undo stack if implemented
+    setCurrentColor(-1);
+    setMoves(0);
+    m_previous_legal_color = -1;
 }
 
 void FlowContextController::startRoute(QPoint location)
@@ -28,12 +33,16 @@ void FlowContextController::startRoute(QPoint location)
     int color = dot_color != -1 ?
                 dot_color : context_color;
 
-    m_current_color = color;
-    emit colorChanged(m_current_color);
+    setCurrentColor(color);
 
-    if (m_current_color == -1)
+    if (getCurrentColor() == -1)
         // on the board
         return;
+
+    // update moves count
+    if (getCurrentColor() != m_previous_legal_color)
+        setMoves(getMoves() + 1);
+    m_previous_legal_color = getCurrentColor();
 
     if (dot_color != -1)
         // is a terminal
@@ -47,7 +56,7 @@ void FlowContextController::startRoute(QPoint location)
 
 void FlowContextController::newRoutePoint(QPoint location)
 {
-    if (m_current_color == -1) return;
+    if (getCurrentColor() == -1) return;
     if (!isInRange(location)) return;
 
     // don't link to terminal dots of other colors
@@ -62,14 +71,26 @@ void FlowContextController::newRoutePoint(QPoint location)
         m_current_route.append(location);
 
     m_stable->cloneTo(*m_beta, false); // update later
-    m_beta->addRoute(m_current_color, m_current_route);
+    m_beta->addRoute(getCurrentColor(), m_current_route);
     // i.e. addRoute here will update view
 }
 
 void FlowContextController::endRoute(void)
 {
-    m_current_color = -1;
+    setCurrentColor(-1);
     m_beta->cloneTo(*m_stable);
+}
+
+void FlowContextController::betaRatioChanged(double ratio)
+{
+    emit realTimeRatioChanged(ratio);
+}
+
+void FlowContextController::stableRatioChanged(double ratio)
+{
+    const double EPS = 1E-8;
+    if (ratio > 1 - EPS)
+        emit gameWon();
 }
 
 /*
@@ -79,7 +100,7 @@ void FlowContextController::endRoute(void)
 bool FlowContextController::isTerminalDotsOfOthers(QPoint location)
 {
     int dot_color = m_board->getColorAt(location);
-    return dot_color != -1 && dot_color != m_current_color;
+    return dot_color != -1 && dot_color != getCurrentColor();
 }
 
 void FlowContextController::truncateCurrentRoute(QPoint terminal)
@@ -111,7 +132,7 @@ bool FlowContextController::isOutOfTerminal(QPoint location)
 {
     // check if it's out of terminal to avoid overflowing
     QPoint last_point = m_current_route[m_current_route.size() - 1];
-    return m_board->getColorAt(last_point) == m_current_color
+    return m_board->getColorAt(last_point) == getCurrentColor()
             && m_current_route.size() > 1;
 }
 
@@ -122,4 +143,17 @@ bool FlowContextController::isInRange(QPoint location)
         && location.x() < m_board->getWidth()
         && location.y() >= 0
         && location.y() < m_board->getHeight();
+}
+
+/*
+ * Setters
+ */
+void FlowContextController::setCurrentColor(int color)
+{
+    emit colorChanged(m_current_color = color);
+}
+
+void FlowContextController::setMoves(int moves)
+{
+    emit movesChanged(m_moves = moves);
 }
