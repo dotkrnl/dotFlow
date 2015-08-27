@@ -4,5 +4,10 @@
         <file>res/games/5.2</file>
         <file>res/games/5.3</file>
         <file>res/games/6.1</file>
+        <file>res/games/6.3</file>
+        <file>res/games/6.2</file>
+        <file>res/games/7.1</file>
+        <file>res/games/7.2</file>
+        <file>res/games/7.3</file>
     </qresource>
 </RCC>

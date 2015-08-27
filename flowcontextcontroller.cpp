@@ -84,12 +84,18 @@ void FlowContextController::newRoutePoint(QPoint location)
     if (isTerminalDotsOfOthers(location)) return;
 
     truncateCurrentRoute(location);
-    if (m_current_route.size() == 0 ||
+
+    if (m_current_route.size() == 0)
         // first time or over-truncated?
-            // or satisfy the conditions
-            (isNearTheEndOfRoute(location)
-             && !isOutOfTerminal(location)))
         m_current_route.append(location);
+    else if (!isOutOfTerminal(location)) {
+        // or satisfy the conditions to complete route
+        for (int i = 1; i <= MAX_FIND_ROUTE; i++)
+            if (makeReachableBy(m_current_route.back(), location, i)) {
+                m_current_route.append(location);
+                break;
+            }
+    }
 
     m_stable->cloneTo(*m_beta, false); // update later
     m_beta->addRoute(getCurrentColor(), m_current_route);
@@ -134,19 +140,34 @@ void FlowContextController::truncateCurrentRoute(QPoint terminal)
     }
 }
 
-bool FlowContextController::isNearTheEndOfRoute(QPoint location)
+bool FlowContextController::makeReachableBy(QPoint f, QPoint t, int depth)
 {
+    if (depth <= 0) return false;
+
     static const int MOVE_TYPE = 4;
     static const QPoint MOVE[4] = {
         QPoint(1, 0), QPoint(-1, 0),
         QPoint(0, 1), QPoint(0, -1),
     };
 
-    // check if it's near the last point of route to avoid jumping
-    QPoint last_point = m_current_route.back();
     for (int i = 0; i < MOVE_TYPE; i++)
-        if (location == last_point + MOVE[i])
+        if (f + MOVE[i] == t) return true;
+
+    for (int i = 0; i < MOVE_TYPE; i++) {
+        QPoint new_loc = f + MOVE[i];
+
+        if (!isInRange(new_loc)
+                || m_board->getColorAt(new_loc) != -1
+                || m_current_route.count(new_loc) > 0)
+            continue;
+
+        m_current_route.push_back(new_loc);
+
+        if (makeReachableBy(new_loc, t, depth - 1))
             return true;
+        else
+            m_current_route.pop_back();
+    }
 
     return false;
 }

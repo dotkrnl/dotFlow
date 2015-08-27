@@ -12,6 +12,7 @@ FlowBoardController::FlowBoardController(QObject *parent)
     qSort(m_files);
 
     m_best.resize(m_files.size());
+    m_perfect.resize(m_files.size());
 
     select(0);
 }
@@ -43,14 +44,16 @@ void FlowBoardController::select(int level)
     }
 }
 
-void FlowBoardController::setBest(int level, int value)
+void FlowBoardController::setBest(int level, int value, bool perfect)
 {
-    emit bestChanged(level, m_best[level] = value);
+    emit bestChanged(level,
+                     m_best[level] = value,
+                     m_perfect[level] = perfect);
 }
 
-void FlowBoardController::updateBest(int best)
+void FlowBoardController::updateBest(int best, bool perfect)
 {
     int l = current();
     if (m_best[l] == 0 || m_best[l] > best)
-        setBest(l, best);
+        setBest(l, best, perfect);
 }

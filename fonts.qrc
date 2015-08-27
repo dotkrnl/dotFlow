@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/fonts">
         <file>res/fontawesome.ttf</file>
+        <file>res/menlo.ttc</file>
     </qresource>
 </RCC>

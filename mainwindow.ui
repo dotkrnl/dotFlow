@@ -35,7 +35,7 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="GameWidget" name="gameView" native="true">
+   <widget class="GameWidget" name="gameWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -50,7 +50,6 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <zorder>winWidget</zorder>
    </widget>
    <widget class="QLabel" name="moveCount">
     <property name="geometry">
@@ -242,7 +241,7 @@ QPushButton:pressed
     <property name="styleSheet">
      <string notr="true"/>
     </property>
-    <zorder>undoButton_2</zorder>
+    <zorder>levelWidget</zorder>
    </widget>
    <widget class="QPushButton" name="levelButton">
     <property name="geometry">
@@ -286,7 +285,20 @@ QPushButton:pressed
      <bool>true</bool>
     </property>
    </widget>
-   <zorder>gameView</zorder>
+   <widget class="LevelWidget" name="levelWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>401</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <zorder>gameWidget</zorder>
    <zorder>moves</zorder>
    <zorder>moveCount</zorder>
    <zorder>ratio</zorder>
@@ -295,6 +307,7 @@ QPushButton:pressed
    <zorder>undoButton</zorder>
    <zorder>winWidget</zorder>
    <zorder>levelButton</zorder>
+   <zorder>levelWidget</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -309,6 +322,12 @@ QPushButton:pressed
    <class>WinWidget</class>
    <extends>QWidget</extends>
    <header>winwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LevelWidget</class>
+   <extends>QWidget</extends>
+   <header>levelwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

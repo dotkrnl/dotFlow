@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QStack>
 #include <QPoint>
+
 #include "flowcontext.h"
+#include "flowglobal.h"
 
 class FlowContextController : public QObject
 {
@@ -33,7 +35,7 @@ protected:
 private:
     bool isTerminalDotsOfOthers(QPoint location);
     void truncateCurrentRoute(QPoint terminal);
-    bool isNearTheEndOfRoute(QPoint location);
+    bool makeReachableBy(QPoint from, QPoint to, int depth);
     bool isOutOfTerminal(QPoint location);
     bool isInRange(QPoint location);
 

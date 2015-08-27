@@ -13,11 +13,109 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QListView" name="listView"/>
-   </item>
-  </layout>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>400</width>
+     <height>400</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: none;
+border: none !important;
+
+vertical {
+	border: 2px solid grey;
+	background: #32CC99;
+	width: 15px;
+	margin: 20px 0px 20px 0px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="verticalScrollMode">
+    <enum>QAbstractItemView::ScrollPerPixel</enum>
+   </property>
+   <property name="horizontalScrollMode">
+    <enum>QAbstractItemView::ScrollPerPixel</enum>
+   </property>
+   <property name="selectionRectVisible">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="hideButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>18</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>FontAwesome</family>
+     <pointsize>20</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	color: #F1F3F5;
+	font: 20pt &quot;FontAwesome&quot;;
+}
+
+QPushButton:hover
+{
+	color: #C1C3C5;
+}
+
+QPushButton:pressed
+{
+	color: #404244;
+}</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>2</y>
+     <width>396</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(0, 0, 0, 220)</string>
+   </property>
+  </widget>
+  <zorder>listWidget</zorder>
+  <zorder>widget</zorder>
+  <zorder>hideButton</zorder>
  </widget>
  <resources/>
  <connections/>

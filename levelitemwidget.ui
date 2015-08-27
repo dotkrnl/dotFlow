@@ -7,12 +7,211 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>74</height>
+    <height>80</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>2</y>
+     <width>396</width>
+     <height>76</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(0, 0, 0, 220)</string>
+   </property>
+   <widget class="QLabel" name="bestCount">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>20</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #A1A3A5;
+background-color: none;
+font: 40pt &quot;Menlo&quot;;
+qproperty-alignment: AlignRight;</string>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::RichText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="best">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>30</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Menlo</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #495153;
+background-color: none;
+qproperty-alignment: AlignRight;</string>
+    </property>
+    <property name="text">
+     <string>good</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="star_perfect">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #E90;
+background-color: none;
+font: 20pt &quot;FontAwesome&quot;;</string>
+    </property>
+    <property name="text">
+     <string></string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="id">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 36pt &quot;Menlo&quot;;
+color: #A1A3A5;
+background-color: none;</string>
+    </property>
+    <property name="text">
+     <string>#01</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="star_yes">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #E90;
+background-color: none;
+font: 20pt &quot;FontAwesome&quot;;</string>
+    </property>
+    <property name="text">
+     <string></string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="try_now">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>30</y>
+      <width>120</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Menlo</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #495153;
+background-color: none;
+qproperty-alignment: AlignRight;</string>
+    </property>
+    <property name="text">
+     <string>try</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="star_no">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #A1A3A5;
+background-color: none;
+font: 20pt &quot;FontAwesome&quot;;</string>
+    </property>
+    <property name="text">
+     <string></string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="best_perfect">
+    <property name="geometry">
+     <rect>
+      <x>175</x>
+      <y>30</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Menlo</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #495153;
+background-color: none;
+qproperty-alignment: AlignRight;</string>
+    </property>
+    <property name="text">
+     <string>perfect</string>
+    </property>
+   </widget>
+   <zorder>best</zorder>
+   <zorder>star_perfect</zorder>
+   <zorder>id</zorder>
+   <zorder>star_yes</zorder>
+   <zorder>try_now</zorder>
+   <zorder>bestCount</zorder>
+   <zorder>star_no</zorder>
+   <zorder>best_perfect</zorder>
+  </widget>
  </widget>
  <resources/>
  <connections/>

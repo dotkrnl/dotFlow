@@ -17,11 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_board = new FlowBoardController(this);
 
-    FlowBoard *gameboard = m_board->get();
+    FlowBoard *gameboard = m_board->getBoard();
     m_game = new FlowContextController(gameboard, this);
 
-    ui->gameView->useBoard(gameboard);
-    ui->gameView->useContextController(m_game);
+    ui->gameWidget->useBoard(gameboard);
+    ui->gameWidget->useContextController(m_game);
+
+    ui->levelWidget->useBoardController(m_board);
 
     connect(m_game, SIGNAL(movesChanged(int)),
             this, SLOT(movesChanged(int)));
@@ -30,8 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_game, SIGNAL(realTimeRatioChanged(double)),
             this, SLOT(ratioChanged(double)));
 
-    connect(m_board, SIGNAL(bestChanged(int, int)),
+    connect(m_board, SIGNAL(bestChanged(int, int, bool)),
             this, SLOT(bestChanged(int, int)));
+    connect(m_board->getBoard(), SIGNAL(boardLoaded(int)),
+            this, SLOT(shouldPrepareForGame()));
 
     connect(m_game, SIGNAL(gameWon()),
             this, SLOT(shouldDoGameWon()));
@@ -40,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_game, SIGNAL(flowAddedWithoutTruncation()),
             m_sound_connected, SLOT(play()));
 
+    connect(ui->levelButton, SIGNAL(clicked(bool)),
+            ui->levelWidget, SLOT(show()));
     connect(ui->undoButton, SIGNAL(clicked(bool)),
             m_game, SLOT(undo()));
     connect(ui->restartButton, SIGNAL(clicked(bool)),
@@ -50,8 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->winWidget, SIGNAL(nextLevelClicked()),
             this, SLOT(shouldDoNextLevel()));
 
-    shouldPrepareForGame();
+    connect(ui->levelWidget, SIGNAL(selected(int)),
+            m_board, SLOT(select(int)));
 
+    shouldPrepareForGame();
 }
 
 MainWindow::~MainWindow()
@@ -70,6 +78,7 @@ void MainWindow::bestChanged(int level, int value)
 {
     if (level == m_board->current())
         ui->winWidget->setBest(value);
+    // TODO: show if perfect
 }
 
 void MainWindow::ratioChanged(double ratio)
@@ -82,23 +91,23 @@ void MainWindow::ratioChanged(double ratio)
 void MainWindow::shouldDoRestart(void)
 {
     m_board->restart();
-    shouldPrepareForGame();
 }
 
 void MainWindow::shouldDoNextLevel(void)
 {
     m_board->next();
-    shouldPrepareForGame();
 }
 
 void MainWindow::shouldDoGameWon(void)
 {
     m_sound_won->play();
     ui->winWidget->show();
-    m_board->updateBest(m_game->getMoves());
+    m_board->updateBest(m_game->getMoves(),
+        m_game->getMoves() == m_board->getBoard()->getColorCount());
 }
 
 void MainWindow::shouldPrepareForGame(void)
 {
     ui->winWidget->hide();
+    ui->levelWidget->hide();
 }
