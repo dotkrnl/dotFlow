@@ -23,37 +23,37 @@ void LevelItemWidget::setBest(int level, int value, bool perfect)
     if (level != m_level) return; // not for this item
 
     setBestCount(value);
+
+    ui->best_perfect->hide();
+    ui->best->hide();
+    ui->try_now->hide();
+    ui->bestCount->hide();
+    ui->star_perfect->hide();
+    ui->star_yes->hide();
+    ui->star_no->hide();
+
     if (!value) {
-        ui->best_perfect->hide();
-        ui->best->hide();
         ui->try_now->show();
-
-        ui->bestCount->hide();
-
-        ui->star_perfect->hide();
-        ui->star_yes->hide();
         ui->star_no->show();
     } else if (!perfect){
-        ui->best_perfect->hide();
         ui->best->show();
-        ui->try_now->hide();
-
         ui->bestCount->show();
-
-        ui->star_perfect->hide();
         ui->star_yes->show();
-        ui->star_no->hide();
     } else {
         ui->best_perfect->show();
-        ui->best->hide();
-        ui->try_now->hide();
-
         ui->bestCount->show();
-
         ui->star_perfect->show();
-        ui->star_yes->hide();
-        ui->star_no->hide();
     }
+}
+
+void LevelItemWidget::setLevel(int level)
+{
+    QString style;
+    if (level == m_level)
+        style = "background-color: rgba(0, 0, 0, 255);";
+    else
+        style = "background-color: rgba(20, 21, 22, 240);";
+    ui->widget->setStyleSheet(style);
 }
 
 void LevelItemWidget::displayID(void)

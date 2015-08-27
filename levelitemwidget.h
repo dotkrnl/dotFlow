@@ -31,6 +31,7 @@ signals:
 
 public slots:
     void setBest(int level, int value, bool perfect);
+    void setLevel(int level);
 
 };
 

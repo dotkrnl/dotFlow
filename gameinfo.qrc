@@ -9,5 +9,7 @@
         <file>res/games/7.1</file>
         <file>res/games/7.2</file>
         <file>res/games/7.3</file>
+        <file>res/games/1.1</file>
+        <file>res/games/4.1</file>
     </qresource>
 </RCC>

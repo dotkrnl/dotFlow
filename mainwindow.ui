@@ -241,7 +241,6 @@ QPushButton:pressed
     <property name="styleSheet">
      <string notr="true"/>
     </property>
-    <zorder>levelWidget</zorder>
    </widget>
    <widget class="QPushButton" name="levelButton">
     <property name="geometry">
@@ -305,9 +304,9 @@ QPushButton:pressed
    <zorder>ratioCount</zorder>
    <zorder>restartButton</zorder>
    <zorder>undoButton</zorder>
-   <zorder>winWidget</zorder>
    <zorder>levelButton</zorder>
    <zorder>levelWidget</zorder>
+   <zorder>winWidget</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

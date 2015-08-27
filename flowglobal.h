@@ -5,9 +5,6 @@
 
 #define GAMEINFO_DIR    ":/gameinfo/res/games"
 
-#define FLOW_BORDER     (QColor(0x55, 0x57, 0x59))
-#define FLOW_BACKGROUND (QColor(0x40, 0x42, 0x44))
-
 // TODO: use relative size
 // should always be even number
 #define FLOW_BORDER_SIZE     6
@@ -62,7 +59,13 @@ static QColor CURRENT_MOUSE_THEME[] = {
     (QColor(0xBA, 0xBA, 0xBA, 50)),
 };
 
+static QColor FLOW_BORDER =
+        QColor(0x55, 0x57, 0x59);
 
-static QColor MOUSE_DEFAULT_COLOR = QColor(0x55, 0x57, 0x59, 127);
+static QColor FLOW_BACKGROUND =
+        QColor(0x40, 0x42, 0x44);
+
+static QColor MOUSE_DEFAULT_COLOR =
+        QColor(0x55, 0x57, 0x59, 127);
 
 #endif // FLOWCOLOR_H

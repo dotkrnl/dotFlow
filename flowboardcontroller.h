@@ -36,6 +36,7 @@ private:
 
 signals:
     void bestChanged(int level, int value, bool perfect);
+    void levelChanged(int level);
 
 public slots:
     void previous(void);
@@ -43,6 +44,9 @@ public slots:
     void restart(void);
     void select(int level);
     void updateBest(int best, bool perfect);
+
+private slots:
+    void loadBoard(void);
 
 };
 

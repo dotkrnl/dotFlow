@@ -122,6 +122,20 @@ void FlowContextController::stableRatioChanged(double ratio)
         emit gameWon();
 }
 
+void FlowContextController::linkForFirstLevel(int level)
+{
+    // TODO: use game solver
+    if (level == 0) {
+        startRoute(QPoint(0, 0));
+        newRoutePoint(QPoint(2, 0));
+        endRoute();
+
+        startRoute(QPoint(0, 2));
+        newRoutePoint(QPoint(2, 2));
+        endRoute();
+    }
+}
+
 /*
  * Utility functions
  */

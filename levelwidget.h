@@ -24,6 +24,9 @@ public:
 
     void useBoardController(FlowBoardController *b);
 
+protected:
+    void showEvent(QShowEvent *event);
+
 private:
     Ui::LevelWidget *ui;
     FlowBoardController *m_board;

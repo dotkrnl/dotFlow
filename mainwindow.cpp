@@ -59,6 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->levelWidget, SIGNAL(selected(int)),
             m_board, SLOT(select(int)));
 
+    connect(m_board, SIGNAL(levelChanged(int)),
+            m_game, SLOT(linkForFirstLevel(int)));
+    m_game->linkForFirstLevel(m_board->current());
+
     shouldPrepareForGame();
 }
 

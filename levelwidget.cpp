@@ -43,6 +43,10 @@ void LevelWidget::useBoardController(FlowBoardController *b)
         connect(m_board, SIGNAL(bestChanged(int,int,bool)),
                 item, SLOT(setBest(int,int,bool)));
 
+        item->setLevel(m_board->current());
+        connect(m_board, SIGNAL(levelChanged(int)),
+                item, SLOT(setLevel(int)));
+
         connect(item, SIGNAL(selected()),
                 m_select_mapper, SLOT(map()));
         m_select_mapper->setMapping(item, i);
@@ -55,4 +59,11 @@ void LevelWidget::useBoardController(FlowBoardController *b)
 
     connect(m_select_mapper, SIGNAL(mapped(int)),
             m_board, SLOT(select(int)));
+}
+
+void LevelWidget::showEvent(QShowEvent *event)
+{
+    QListWidgetItem *item =
+            ui->listWidget->item(m_board->current());
+    ui->listWidget->scrollToItem(item);
 }

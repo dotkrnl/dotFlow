@@ -14,6 +14,9 @@ FlowBoardController::FlowBoardController(QObject *parent)
     m_best.resize(m_files.size());
     m_perfect.resize(m_files.size());
 
+    connect(this, SIGNAL(levelChanged(int)),
+            this, SLOT(loadBoard()));
+
     select(0);
 }
 
@@ -36,12 +39,7 @@ void FlowBoardController::select(int level)
 {
     if (level < 0) select(0);
     else if (level >= total()) select(total() - 1);
-    else {
-        m_current = level;
-        QFile file(m_files[current()]);
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        m_board->loadFrom(&file);
-    }
+    else emit levelChanged(m_current = level);
 }
 
 void FlowBoardController::setBest(int level, int value, bool perfect)
@@ -56,4 +54,11 @@ void FlowBoardController::updateBest(int best, bool perfect)
     int l = current();
     if (m_best[l] == 0 || m_best[l] > best)
         setBest(l, best, perfect);
+}
+
+void FlowBoardController::loadBoard(void)
+{
+    QFile file(m_files[current()]);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    m_board->loadFrom(&file);
 }
