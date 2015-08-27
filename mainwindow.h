@@ -5,7 +5,7 @@
 #include <QSound>
 #include <QSoundEffect>
 
-#include "flowboard.h"
+#include "flowboardcontroller.h"
 #include "flowcontextcontroller.h"
 #include "flowglobal.h"
 
@@ -24,8 +24,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    FlowBoard *m_board;
-    FlowContextController *m_controller;
+    FlowBoardController *m_board;
+    FlowContextController *m_game;
 
     QSound *m_sound_won,
            *m_sound_broke,
@@ -33,12 +33,13 @@ private:
 
 public slots:
     void movesChanged(int moves);
+    void bestChanged(int level, int value);
     void ratioChanged(double ratio);
-    void restartClicked(void);
 
-    void flowBroke(void);
-    void flowConnected(void);
-    void gameWon(void);
+    void shouldDoRestart(void);
+    void shouldDoNextLevel(void);
+    void shouldDoGameWon(void);
+    void shouldPrepareForGame(void);
 
 };
 

@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/gameinfo">
-        <file>res/5x5/1</file>
+        <file>res/games/5.1</file>
+        <file>res/games/5.2</file>
+        <file>res/games/5.3</file>
+        <file>res/games/6.1</file>
     </qresource>
 </RCC>

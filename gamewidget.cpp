@@ -1,19 +1,19 @@
-#include "flowgameview.h"
+#include "gamewidget.h"
 
-FlowGameView::FlowGameView(QWidget *parent)
+GameWidget::GameWidget(QWidget *parent)
     : QWidget(parent),
       m_mouse_color(-1)
 {
 }
 
-void FlowGameView::useBoard(FlowBoard *board)
+void GameWidget::useBoard(FlowBoard *board)
 {
     m_board = board;
     connect(m_board, SIGNAL(boardLoaded(int)),
             this, SLOT(boardChanged()));
 }
 
-void FlowGameView::useController(FlowContextController *controller)
+void GameWidget::useContextController(FlowContextController *controller)
 {
     m_controller = controller;
     connect(m_controller, SIGNAL(colorChanged(int)),
@@ -23,21 +23,21 @@ void FlowGameView::useController(FlowContextController *controller)
             this, SLOT(contextChanged()));
 }
 
-QPoint FlowGameView::decodeLocation(QPoint mouse)
+QPoint GameWidget::decodeLocation(QPoint mouse)
 {
     int x = mouse.x() / m_ppc;
     int y = mouse.y() / m_ppl;
     return QPoint(x, y);
 }
 
-QPoint FlowGameView::encodeLocation(QPoint location)
+QPoint GameWidget::encodeLocation(QPoint location)
 {
     int center_x =  location.x() * m_ppc + m_ppc / 2;
     int center_y =  location.y() * m_ppl + m_ppl / 2;
     return QPoint(center_x, center_y);
 }
 
-void FlowGameView::recalculateCommonSize(void)
+void GameWidget::recalculateCommonSize(void)
 {
     int raw_width  = this->width();
     int raw_height = this->height();
@@ -57,29 +57,29 @@ void FlowGameView::recalculateCommonSize(void)
     m_relative_size = qMin(m_ppl, m_ppc);
 }
 
-void FlowGameView::resizeEvent(QResizeEvent* event)
+void GameWidget::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
     this->recalculateCommonSize();
 }
 
-void FlowGameView::boardChanged(void)
+void GameWidget::boardChanged(void)
 {
     this->recalculateCommonSize();
     this->update();
 }
 
-void FlowGameView::contextChanged(void)
+void GameWidget::contextChanged(void)
 {
     this->update();
 }
 
-void FlowGameView::mouseColorChanged(int color)
+void GameWidget::mouseColorChanged(int color)
 {
     m_mouse_color = color;
 }
 
-void FlowGameView::paintEvent(QPaintEvent *event)
+void GameWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHints(
@@ -94,7 +94,7 @@ void FlowGameView::paintEvent(QPaintEvent *event)
     drawMouse(painter);
 }
 
-void FlowGameView::drawBoard(QPainter &painter)
+void GameWidget::drawBoard(QPainter &painter)
 {
     QPen boardPen(FLOW_BORDER);
     boardPen.setJoinStyle(Qt::RoundJoin);
@@ -114,7 +114,7 @@ void FlowGameView::drawBoard(QPainter &painter)
     }
 }
 
-void FlowGameView::drawDots(QPainter &painter)
+void GameWidget::drawDots(QPainter &painter)
 {
     DotPairVector dot_pairs = m_board->getDotPairs();
     for (int i = 0; i < dot_pairs.size(); i++) {
@@ -123,7 +123,7 @@ void FlowGameView::drawDots(QPainter &painter)
     }
 }
 
-void FlowGameView::drawDot(QPainter &painter,
+void GameWidget::drawDot(QPainter &painter,
                            QPoint dot, int color)
 {
     QPoint center = encodeLocation(dot);
@@ -135,7 +135,7 @@ void FlowGameView::drawDot(QPainter &painter,
     drawRound(painter, center, dot_diameter);
 }
 
-void FlowGameView::drawMouse(QPainter &painter)
+void GameWidget::drawMouse(QPainter &painter)
 {
     // TODO: maybe should be a widget
     if (!m_pressed) return;
@@ -149,7 +149,7 @@ void FlowGameView::drawMouse(QPainter &painter)
     drawRound(painter, m_mouse_pos, dot_diameter);
 }
 
-void FlowGameView::drawContext(QPainter &painter)
+void GameWidget::drawContext(QPainter &painter)
 {
     for (int c = 0; c < m_board->getColorCount(); c++) {
         PointSeries route = m_context->getRouteOf(c);
@@ -168,7 +168,7 @@ void FlowGameView::drawContext(QPainter &painter)
     }
 }
 
-void FlowGameView::drawContextBoard(QPainter &painter)
+void GameWidget::drawContextBoard(QPainter &painter)
 {
     for (int c = 0; c < m_board->getColorCount(); c++) {
         PointSeries route = m_context->getRouteOf(c);
@@ -182,7 +182,7 @@ void FlowGameView::drawContextBoard(QPainter &painter)
     }
 }
 
-void FlowGameView::drawRound(QPainter &painter,
+void GameWidget::drawRound(QPainter &painter,
                              QPoint center, int diameter)
 {
     if (diameter & 1) diameter++; // even number fix
@@ -193,7 +193,7 @@ void FlowGameView::drawRound(QPainter &painter,
 }
 
 
-void FlowGameView::mousePressEvent(QMouseEvent *event)
+void GameWidget::mousePressEvent(QMouseEvent *event)
 {
     m_pressed = true;
     m_mouse_pos = event->pos() - QPoint(m_wzero, m_hzero);
@@ -201,14 +201,14 @@ void FlowGameView::mousePressEvent(QMouseEvent *event)
     this->update();
 }
 
-void FlowGameView::mouseMoveEvent(QMouseEvent *event)
+void GameWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_mouse_pos = event->pos() - QPoint(m_wzero, m_hzero);
     m_controller->newRoutePoint(decodeLocation(m_mouse_pos));
     this->update();
 }
 
-void FlowGameView::mouseReleaseEvent(QMouseEvent *event)
+void GameWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     m_pressed = false;
     m_controller->endRoute();

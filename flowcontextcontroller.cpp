@@ -12,7 +12,7 @@ FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
     connect(m_stable, SIGNAL(contextRatioChanged(double)),
             this, SLOT(stableRatioChanged(double)));
     connect(m_beta, SIGNAL(contextRatioChanged(double)),
-            this, SLOT(betaRatioChanged(double)));
+            this, SIGNAL(realTimeRatioChanged(double)));
     setCurrentColor(-1);
     setMoves(0);
 }
@@ -100,16 +100,13 @@ void FlowContextController::endRoute(void)
 {
     if (m_beta->isTruncatedComparedTo(*m_stable))
         emit flowTruncated();
-    else if (m_stable->isTruncatedComparedTo(*m_beta))
+    else if (m_current_route.size() > 1 &&
+             m_board->getColorAt(m_current_route.back())
+                == m_current_color)
         emit flowAddedWithoutTruncation();
 
     setCurrentColor(-1);
     m_beta->cloneTo(*m_stable);
-}
-
-void FlowContextController::betaRatioChanged(double ratio)
-{
-    emit realTimeRatioChanged(ratio);
 }
 
 void FlowContextController::stableRatioChanged(double ratio)
@@ -146,7 +143,7 @@ bool FlowContextController::isNearTheEndOfRoute(QPoint location)
     };
 
     // check if it's near the last point of route to avoid jumping
-    QPoint last_point = m_current_route[m_current_route.size() - 1];
+    QPoint last_point = m_current_route.back();
     for (int i = 0; i < MOVE_TYPE; i++)
         if (location == last_point + MOVE[i])
             return true;
@@ -157,7 +154,7 @@ bool FlowContextController::isNearTheEndOfRoute(QPoint location)
 bool FlowContextController::isOutOfTerminal(QPoint location)
 {
     // check if it's out of terminal to avoid overflowing
-    QPoint last_point = m_current_route[m_current_route.size() - 1];
+    QPoint last_point = m_current_route.back();
     return m_board->getColorAt(last_point) == getCurrentColor()
             && m_current_route.size() > 1;
 }

@@ -14,15 +14,15 @@
 #include "flowcontextcontroller.h"
 #include "flowglobal.h"
 
-class FlowGameView : public QWidget
+class GameWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit FlowGameView(QWidget *parent = 0);
+    explicit GameWidget(QWidget *parent = 0);
 
     void useBoard(FlowBoard *board);
-    void useController(FlowContextController *controller);
+    void useContextController(FlowContextController *controller);
 
 protected:
     void paintEvent(QPaintEvent *event);

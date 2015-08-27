@@ -58,7 +58,6 @@ public slots:
     void newRoutePoint(QPoint location);
     void endRoute(void);
 
-    void betaRatioChanged(double ratio);
     void stableRatioChanged(double ratio);
 };
 
