@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(
                 ":/fonts/res/fontawesome.ttf");
     QFontDatabase::addApplicationFont(
-                ":/fonts/res/menlo.ttc");
+                ":/fonts/res/menlo.ttf");
+    QFontDatabase::addApplicationFont(
+                ":/fonts/res/menlo-bold.ttf");
 
     MainWindow w;
     w.show();
