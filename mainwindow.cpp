@@ -51,13 +51,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->restartButton, SIGNAL(clicked(bool)),
             this, SLOT(shouldDoRestart()));
 
-    connect(ui->winWidget, SIGNAL(restartLevelClicked()),
-            this, SLOT(shouldDoRestart()));
+    connect(ui->winWidget, SIGNAL(randomLevelClicked()),
+            this, SLOT(shouldDoRandom()));
     connect(ui->winWidget, SIGNAL(nextLevelClicked()),
             this, SLOT(shouldDoNextLevel()));
 
     connect(ui->levelWidget, SIGNAL(selected(int)),
             m_board, SLOT(select(int)));
+    connect(ui->levelWidget, SIGNAL(randomClicked()),
+            this, SLOT(shouldDoRandom()));
 
     connect(m_board, SIGNAL(levelChanged(int)),
             m_game, SLOT(linkForFirstLevel(int)));
@@ -95,6 +97,11 @@ void MainWindow::ratioChanged(double ratio)
 void MainWindow::shouldDoRestart(void)
 {
     m_board->restart();
+}
+
+void MainWindow::shouldDoRandom(void)
+{
+    m_board->random();
 }
 
 void MainWindow::shouldDoNextLevel(void)

@@ -35,6 +35,7 @@ private:
 signals:
     void selected(int level);
     void hideClicked(void);
+    void randomClicked(void);
 
 };
 

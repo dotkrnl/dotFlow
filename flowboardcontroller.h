@@ -42,6 +42,7 @@ public slots:
     void previous(void);
     void next(void);
     void restart(void);
+    void random(void);
     void select(int level);
     void updateBest(int best, bool perfect);
 

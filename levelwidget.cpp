@@ -20,6 +20,9 @@ LevelWidget::LevelWidget(QWidget *parent) :
     connect(this, SIGNAL(hideClicked()),
             this, SLOT(hide()));
 
+    connect(ui->randomButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(randomClicked()));
+
 }
 
 LevelWidget::~LevelWidget()

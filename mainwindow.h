@@ -37,6 +37,7 @@ public slots:
     void ratioChanged(double ratio);
 
     void shouldDoRestart(void);
+    void shouldDoRandom(void);
     void shouldDoNextLevel(void);
     void shouldDoGameWon(void);
     void shouldPrepareForGame(void);

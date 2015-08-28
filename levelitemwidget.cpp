@@ -52,7 +52,7 @@ void LevelItemWidget::setLevel(int level)
     if (level == m_level)
         style = "background-color: rgba(0, 0, 0, 255);";
     else
-        style = "background-color: rgba(20, 21, 22, 240);";
+        style = "background-color: rgba(40, 41, 42, 240);";
     ui->widget->setStyleSheet(style);
 }
 

@@ -20,7 +20,7 @@ private:
 
 signals:
     void nextLevelClicked(void);
-    void restartLevelClicked(void);
+    void randomLevelClicked(void);
 
 public slots:
     void setMoves(int moves);

@@ -35,6 +35,16 @@ void FlowBoardController::restart(void)
     select(current());
 }
 
+int randInt(int low, int high)
+{
+    return qrand() % ((high + 1) - low) + low;
+}
+
+void FlowBoardController::random(void)
+{
+    select(randInt(0, total()));
+}
+
 void FlowBoardController::select(int level)
 {
     if (level < 0) select(0);

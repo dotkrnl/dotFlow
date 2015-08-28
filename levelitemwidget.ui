@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(20, 21, 22, 240);
+    <string notr="true">background-color: rgba(30, 31, 32, 240);
 font: &quot;Managed in levelitemwidget.cpp&quot;;</string>
    </property>
    <widget class="QLabel" name="bestCount">
@@ -162,7 +162,7 @@ qproperty-alignment: AlignRight;
 border: none;</string>
     </property>
     <property name="text">
-     <string>try</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="star_no">

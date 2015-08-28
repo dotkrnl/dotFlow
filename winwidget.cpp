@@ -9,8 +9,8 @@ WinWidget::WinWidget(QWidget *parent) :
 
     connect(ui->nextButton, SIGNAL(clicked(bool)),
             this, SIGNAL(nextLevelClicked()));
-    connect(ui->restartButton, SIGNAL(clicked(bool)),
-            this, SIGNAL(restartLevelClicked()));
+    connect(ui->randomButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(randomLevelClicked()));
 }
 
 WinWidget::~WinWidget()

@@ -110,12 +110,56 @@ QPushButton:pressed
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(20, 21, 22, 240);</string>
+    <string notr="true">background-color: rgba(40, 41, 42, 240);</string>
+   </property>
+   <zorder>hideButton_2</zorder>
+  </widget>
+  <widget class="QPushButton" name="randomButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>18</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>FontAwesome</family>
+     <pointsize>20</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	color: #A1A3A5;
+	font: 20pt &quot;FontAwesome&quot;;
+}
+
+QPushButton:hover
+{
+	color: #C1C3C5;
+}
+
+QPushButton:pressed
+{
+	color: #404244;
+}</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <zorder>listWidget</zorder>
   <zorder>widget</zorder>
   <zorder>hideButton</zorder>
+  <zorder>randomButton</zorder>
  </widget>
  <resources/>
  <connections/>
