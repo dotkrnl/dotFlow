@@ -21,25 +21,31 @@ SOURCES += main.cpp\
     flowboardcontroller.cpp \
     gamewidget.cpp \
     levelwidget.cpp \
-    levelitemwidget.cpp
+    levelitemwidget.cpp \
+    hintswidget.cpp \
+    flowsolver.cpp
 
 HEADERS  += mainwindow.h \
     flowboard.h \
-    flowglobal.h \
     flowcontext.h \
     flowcontextcontroller.h \
     winwidget.h \
     flowboardcontroller.h \
     gamewidget.h \
     levelwidget.h \
-    levelitemwidget.h
+    levelitemwidget.h \
+    hintswidget.h \
+    flowsolver.h \
+    globalconstant.h
 
 FORMS    += mainwindow.ui \
     winwidget.ui \
     levelwidget.ui \
-    levelitemwidget.ui
+    levelitemwidget.ui \
+    hintswidget.ui
 
 RESOURCES += \
     gameinfo.qrc \
     fonts.qrc \
-    sound.qrc
+    sound.qrc \
+    hints.qrc

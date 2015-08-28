@@ -3,5 +3,6 @@
         <file>res/connected.wav</file>
         <file>res/won.wav</file>
         <file>res/broke.wav</file>
+        <file>res/click.wav</file>
     </qresource>
 </RCC>

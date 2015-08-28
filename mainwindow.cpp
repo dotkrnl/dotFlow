@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     m_sound_won(new QSound(":/sound/res/won.wav", this)),
     m_sound_broke(new QSound(":/sound/res/broke.wav", this)),
-    m_sound_connected(new QSound(":/sound/res/connected.wav", this))
+    m_sound_connected(new QSound(":/sound/res/connected.wav", this)),
+    m_sound_click(new QSound(":/sound/res/click.wav", this))
 {
     ui->setupUi(this);
     setCursor(QCursor(Qt::CrossCursor));
@@ -32,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_game, SIGNAL(realTimeRatioChanged(double)),
             this, SLOT(ratioChanged(double)));
 
-    connect(m_board, SIGNAL(bestChanged(int, int, bool)),
-            this, SLOT(bestChanged(int, int)));
     connect(m_board->getBoard(), SIGNAL(boardLoaded(int)),
             this, SLOT(shouldPrepareForGame()));
 
@@ -48,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->levelWidget, SLOT(show()));
     connect(ui->undoButton, SIGNAL(clicked(bool)),
             m_game, SLOT(undo()));
-    connect(ui->restartButton, SIGNAL(clicked(bool)),
-            this, SLOT(shouldDoRestart()));
+    connect(ui->solveButton, SIGNAL(clicked(bool)),
+            this, SLOT(shouldDoSolve()));
 
     connect(ui->winWidget, SIGNAL(randomLevelClicked()),
             this, SLOT(shouldDoRandom()));
@@ -58,12 +57,38 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->levelWidget, SIGNAL(selected(int)),
             m_board, SLOT(select(int)));
+    connect(ui->levelWidget, SIGNAL(restartClicked()),
+            this, SLOT(shouldDoRestart()));
     connect(ui->levelWidget, SIGNAL(randomClicked()),
             this, SLOT(shouldDoRandom()));
+    connect(ui->levelWidget, SIGNAL(resetClicked()),
+            m_board, SLOT(initGame()));
 
     connect(m_board, SIGNAL(levelChanged(int)),
             m_game, SLOT(linkForFirstLevel(int)));
     m_game->linkForFirstLevel(m_board->current());
+    connect(m_board, SIGNAL(gameInitialized()),
+            ui->hintsWidget, SLOT(show()));
+
+    // sound configuration
+    connect(ui->levelButton, SIGNAL(clicked(bool)),
+            m_sound_click, SLOT(play()));
+    connect(ui->undoButton, SIGNAL(clicked(bool)),
+            m_sound_click, SLOT(play()));
+    connect(ui->solveButton, SIGNAL(clicked(bool)),
+            m_sound_click, SLOT(play()));
+    connect(ui->winWidget, SIGNAL(randomLevelClicked()),
+            m_sound_click, SLOT(play()));
+    connect(ui->winWidget, SIGNAL(nextLevelClicked()),
+            m_sound_click, SLOT(play()));
+    connect(ui->levelWidget, SIGNAL(selected(int)),
+            m_sound_click, SLOT(play()));
+    connect(ui->levelWidget, SIGNAL(hideClicked()),
+            m_sound_click, SLOT(play()));
+    connect(ui->levelWidget, SIGNAL(restartClicked()),
+            m_sound_click, SLOT(play()));
+    connect(ui->levelWidget, SIGNAL(randomClicked()),
+            m_sound_click, SLOT(play()));
 
     shouldPrepareForGame();
 }
@@ -78,20 +103,16 @@ void MainWindow::movesChanged(int moves)
     ui->moveCount->setText(QString::number(moves));
 }
 
-#include <QDebug>
-
-void MainWindow::bestChanged(int level, int value)
-{
-    if (level == m_board->current())
-        ui->winWidget->setBest(value);
-    // TODO: show if perfect
-}
-
 void MainWindow::ratioChanged(double ratio)
 {
     const double EPS = 1E-8;
     int i_ratio = (ratio + EPS) * 100;
     ui->ratioCount->setText(QString::number(i_ratio) + "%");
+}
+
+void MainWindow::shouldDoSolve(void)
+{
+    m_game->solve();
 }
 
 void MainWindow::shouldDoRestart(void)
@@ -112,9 +133,10 @@ void MainWindow::shouldDoNextLevel(void)
 void MainWindow::shouldDoGameWon(void)
 {
     m_sound_won->play();
-    ui->winWidget->show();
     m_board->updateBest(m_game->getMoves(),
         m_game->getMoves() == m_board->getBoard()->getColorCount());
+    ui->winWidget->setBest(m_board->getBest());
+    ui->winWidget->show();
 }
 
 void MainWindow::shouldPrepareForGame(void)

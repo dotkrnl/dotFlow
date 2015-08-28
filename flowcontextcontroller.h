@@ -6,7 +6,8 @@
 #include <QPoint>
 
 #include "flowcontext.h"
-#include "flowglobal.h"
+#include "flowsolver.h"
+#include "globalconstant.h"
 
 class FlowContextController : public QObject
 {
@@ -15,11 +16,13 @@ class FlowContextController : public QObject
 public:
     explicit FlowContextController(FlowBoard *mother, QObject *parent = 0);
     FlowContext *getDisplayContext(void) { return m_beta; }
+    FlowContext *getBoardContext(void) { return m_stable; }
 
     int getMoves(void) { return m_moves; }
 
 protected:
     FlowBoard *m_board;
+    FlowSolver *m_solver;
 
     QStack<FlowContext *> m_undo;
     FlowContext *m_stable;
@@ -53,6 +56,7 @@ signals:
     void gameWon(void);
 
 public slots:
+    void solve(void);
     void restart(void);
     void undo(void);
 

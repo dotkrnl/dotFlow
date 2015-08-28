@@ -14,13 +14,16 @@ class FlowContext : public QObject
 
 public:
     explicit FlowContext(FlowBoard *mother, QObject *parent = 0);
+    FlowContext(const FlowContext &o, QObject *parent = 0);
+
     void addRoute(int color, PointSeries route);
-    void cloneTo(FlowContext &dest, bool update = true);
+    void cloneTo(FlowContext &dest, bool update = true) const;
 
-    int getColorAt(QPoint location);
-    PointSeries getRouteOf(int color);
+    double getRatio(void) const;
+    int getColorAt(QPoint location) const;
+    PointSeries getRouteOf(int color) const;
 
-    bool isTruncatedComparedTo(FlowContext &ot);
+    bool isTruncatedComparedTo(const FlowContext &ot) const;
 
 protected:
     QVector<PointSeries> m_context;

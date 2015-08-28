@@ -20,8 +20,12 @@ LevelWidget::LevelWidget(QWidget *parent) :
     connect(this, SIGNAL(hideClicked()),
             this, SLOT(hide()));
 
+    connect(ui->restartButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(restartClicked()));
     connect(ui->randomButton, SIGNAL(clicked(bool)),
             this, SIGNAL(randomClicked()));
+    connect(ui->resetButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(resetClicked()));
 
 }
 
@@ -61,7 +65,7 @@ void LevelWidget::useBoardController(FlowBoardController *b)
     }
 
     connect(m_select_mapper, SIGNAL(mapped(int)),
-            m_board, SLOT(select(int)));
+            this, SIGNAL(selected(int)));
 }
 
 void LevelWidget::showEvent(QShowEvent *event)

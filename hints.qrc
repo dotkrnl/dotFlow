@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/hints">
+        <file>res/hints/step1.bmp</file>
+        <file>res/hints/step2.bmp</file>
+        <file>res/hints/step3.bmp</file>
+        <file>res/hints/step4.bmp</file>
+    </qresource>
+</RCC>

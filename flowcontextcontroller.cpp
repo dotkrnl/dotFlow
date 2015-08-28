@@ -7,6 +7,7 @@ FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
       m_beta(new FlowContext(mother, this)),
       m_previous_legal_color(-1)
 {
+    m_solver = new FlowSolver(m_board, this);
     connect(m_board, SIGNAL(boardLoaded(int)),
             this, SLOT(restart()));
     connect(m_stable, SIGNAL(contextRatioChanged(double)),
@@ -15,6 +16,17 @@ FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
             this, SIGNAL(realTimeRatioChanged(double)));
     setCurrentColor(-1);
     setMoves(0);
+}
+
+void FlowContextController::solve(void)
+{
+    const double EPS = 1E-8;
+    if (m_beta->getRatio() > 1 - EPS) {
+        m_stable->cloneTo(*m_beta);
+    } else {
+        FlowContext answer = m_solver->solve();
+        answer.cloneTo(*m_beta);
+    }
 }
 
 void FlowContextController::restart(void)

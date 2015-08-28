@@ -12,7 +12,7 @@
 
 #include "flowboard.h"
 #include "flowcontextcontroller.h"
-#include "flowglobal.h"
+#include "globalconstant.h"
 
 class GameWidget : public QWidget
 {
@@ -30,6 +30,7 @@ protected:
 
     FlowBoard *m_board;
     FlowContext *m_context;
+    FlowContext *m_boardcontext;
     FlowContextController *m_controller;
 
     bool m_pressed;
@@ -55,7 +56,7 @@ private:
     void drawBoard(QPainter &painter);
     void drawDots(QPainter &painter);
     void drawContext(QPainter &painter);
-    void drawContextBoard(QPainter &painter);
+    void drawBoardContext(QPainter &painter);
 
     void drawDot(QPainter &painter, QPoint dot, int color);
     void drawRound(QPainter &painter, QPoint center, int diameter);
@@ -67,6 +68,7 @@ signals:
 public slots:
     void boardChanged(void);
     void contextChanged(void);
+    void boardcontextChanged(void);
     void mouseColorChanged(int color);
 
 };

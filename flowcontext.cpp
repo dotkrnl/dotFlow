@@ -11,6 +11,11 @@ FlowContext::FlowContext(FlowBoard *mother, QObject *parent)
     initFlowContext(m_board->getColorCount());
 }
 
+FlowContext::FlowContext(const FlowContext &o, QObject *parent)
+{
+    o.cloneTo(*this);
+}
+
 void FlowContext::initFlowContext(int color_count)
 {
     m_context.resize(0);
@@ -18,7 +23,7 @@ void FlowContext::initFlowContext(int color_count)
     emit contextUpdated();
 }
 
-int FlowContext::getColorAt(QPoint location)
+int FlowContext::getColorAt(QPoint location) const
 {
     for (int c = 0; c < m_context.size(); c++) {
         for (int i = 0; i < m_context[c].size(); i++)
@@ -28,12 +33,12 @@ int FlowContext::getColorAt(QPoint location)
     return -1;
 }
 
-PointSeries FlowContext::getRouteOf(int color)
+PointSeries FlowContext::getRouteOf(int color) const
 {
     return m_context[color];
 }
 
-bool FlowContext::isTruncatedComparedTo(FlowContext &ot)
+bool FlowContext::isTruncatedComparedTo(const FlowContext &ot) const
 {
     for (int c = 0; c < ot.m_context.size(); c++) {
         if (!(ot.m_context[c].size() > 1)) continue;
@@ -66,13 +71,13 @@ void FlowContext::addRoute(int color, PointSeries route)
     emit contextUpdated();
 }
 
-void FlowContext::cloneTo(FlowContext &dest, bool update)
+void FlowContext::cloneTo(FlowContext &dest, bool update) const
 {
     dest.m_context = m_context;
     if (update) emit dest.contextUpdated();
 }
 
-void FlowContext::calculateRatio(void)
+double FlowContext::getRatio(void) const
 {
     int total = m_board->getWidth() *
                 m_board->getHeight();
@@ -81,5 +86,10 @@ void FlowContext::calculateRatio(void)
     for (int c = 0; c < m_context.size(); c++)
         done += m_context[c].size();
 
-    emit contextRatioChanged(double(done) / total);
+    return double(done) / total;
+}
+
+void FlowContext::calculateRatio(void)
+{
+    emit contextRatioChanged(getRatio());
 }

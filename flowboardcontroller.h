@@ -5,8 +5,9 @@
 #include <QString>
 #include <QVector>
 #include <QDirIterator>
+#include <QSettings>
 
-#include "flowglobal.h"
+#include "globalconstant.h"
 #include "flowboard.h"
 
 class FlowBoardController : public QObject
@@ -20,21 +21,23 @@ public:
     int total(void) { return m_files.size(); }
 
     FlowBoard *getBoard(void) { return m_board; }
-    int getBest(int level) { return m_best[level]; }
-    bool getPerfect(int level) { return m_perfect[level]; }
+
+    int getBest(void);
+    int getBest(int level);
+    bool getPerfect(void);
+    bool getPerfect(int level);
 
 protected:
     QVector<QString> m_files;
     FlowBoard *m_board;
+    QSettings *m_settings;
     int m_current;
 
     void setBest(int level, int value, bool perfect);
 
-private:
-    QVector<int> m_best;
-    QVector<bool> m_perfect;
-
 signals:
+    void gameInitialized(void);
+
     void bestChanged(int level, int value, bool perfect);
     void levelChanged(int level);
 
@@ -44,6 +47,8 @@ public slots:
     void restart(void);
     void random(void);
     void select(int level);
+
+    void initGame(void);
     void updateBest(int best, bool perfect);
 
 private slots:

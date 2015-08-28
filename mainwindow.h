@@ -7,7 +7,7 @@
 
 #include "flowboardcontroller.h"
 #include "flowcontextcontroller.h"
-#include "flowglobal.h"
+#include "globalconstant.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,13 +29,14 @@ private:
 
     QSound *m_sound_won,
            *m_sound_broke,
-           *m_sound_connected;
+           *m_sound_connected,
+           *m_sound_click;
 
 public slots:
     void movesChanged(int moves);
-    void bestChanged(int level, int value);
     void ratioChanged(double ratio);
 
+    void shouldDoSolve(void);
     void shouldDoRestart(void);
     void shouldDoRandom(void);
     void shouldDoNextLevel(void);

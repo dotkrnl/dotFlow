@@ -19,8 +19,11 @@ void GameWidget::useContextController(FlowContextController *controller)
     connect(m_controller, SIGNAL(colorChanged(int)),
             this, SLOT(mouseColorChanged(int)));
     m_context = m_controller->getDisplayContext();
+    m_boardcontext = m_controller->getBoardContext();
     connect(m_context, SIGNAL(contextUpdated()),
             this, SLOT(contextChanged()));
+    connect(m_boardcontext, SIGNAL(contextUpdated()),
+            this, SLOT(boardcontextChanged()));
 }
 
 QPoint GameWidget::decodeLocation(QPoint mouse)
@@ -74,6 +77,11 @@ void GameWidget::contextChanged(void)
     this->update();
 }
 
+void GameWidget::boardcontextChanged(void)
+{
+    this->update();
+}
+
 void GameWidget::mouseColorChanged(int color)
 {
     m_mouse_color = color;
@@ -87,7 +95,7 @@ void GameWidget::paintEvent(QPaintEvent *event)
       | QPainter::TextAntialiasing);
     painter.translate(m_hzero, m_hzero);
 
-    drawContextBoard(painter);
+    drawBoardContext(painter);
     drawBoard(painter);
     drawContext(painter);
     drawDots(painter);
@@ -168,10 +176,10 @@ void GameWidget::drawContext(QPainter &painter)
     }
 }
 
-void GameWidget::drawContextBoard(QPainter &painter)
+void GameWidget::drawBoardContext(QPainter &painter)
 {
     for (int c = 0; c < m_board->getColorCount(); c++) {
-        PointSeries route = m_context->getRouteOf(c);
+        PointSeries route = m_boardcontext->getRouteOf(c);
         for (int i = 0; i < route.size(); i++) {
             QPoint center = encodeLocation(route[i]);
             QPoint size   = QPoint(m_ppc / 2, m_ppl / 2);
