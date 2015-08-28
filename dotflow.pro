@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = dotflow
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     flowboard.cpp \
@@ -48,4 +47,8 @@ RESOURCES += \
     gameinfo.qrc \
     fonts.qrc \
     sound.qrc \
-    hints.qrc
+    hints.qrc \
+    icon.qrc
+
+RC_ICONS = dotflow.icon
+ICON = dotflow.icns

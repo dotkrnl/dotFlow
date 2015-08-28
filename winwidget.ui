@@ -219,12 +219,12 @@ QPushButton:pressed
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>281</width>
-      <height>281</height>
+      <width>301</width>
+      <height>291</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgba(234, 136, 0, 171);
+     <string notr="true">color: rgba(234, 136, 0, 40);
 background-color: none;
 font: 200pt &quot;FontAwesome&quot;;
 border: none;</string>

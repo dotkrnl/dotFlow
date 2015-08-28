@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>dotflow.icns</file>
+        <file>dotflow.icon</file>
+    </qresource>
+</RCC>
