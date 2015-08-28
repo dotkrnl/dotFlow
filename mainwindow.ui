@@ -55,9 +55,9 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>15</y>
+      <y>9</y>
       <width>91</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -65,8 +65,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">color: #A1A3A5;
-font: 40pt &quot;Menlo&quot;;
-qproperty-alignment: AlignRight;</string>
+font: 32pt &quot;Menlo&quot;;</string>
     </property>
     <property name="text">
      <string>0</string>
@@ -74,75 +73,93 @@ qproperty-alignment: AlignRight;</string>
     <property name="textFormat">
      <enum>Qt::RichText</enum>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+    </property>
    </widget>
    <widget class="QLabel" name="moves">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>25</y>
-      <width>91</width>
-      <height>31</height>
+      <x>135</x>
+      <y>15</y>
+      <width>121</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Menlo</family>
-      <pointsize>28</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #495153;
-qproperty-alignment: AlignRight;</string>
+     <string notr="true">color: #495153;</string>
     </property>
     <property name="text">
      <string>moves</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
     </property>
    </widget>
    <widget class="QLabel" name="ratio">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>25</y>
-      <width>91</width>
-      <height>31</height>
+      <x>240</x>
+      <y>15</y>
+      <width>111</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Menlo</family>
-      <pointsize>28</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #495153;
-qproperty-alignment: AlignRight;</string>
+     <string notr="true">color: #495153;</string>
     </property>
     <property name="text">
      <string>ratio</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
     </property>
    </widget>
    <widget class="QLabel" name="ratioCount">
     <property name="geometry">
      <rect>
-      <x>285</x>
-      <y>15</y>
-      <width>101</width>
-      <height>41</height>
+      <x>245</x>
+      <y>9</y>
+      <width>131</width>
+      <height>51</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Menlo</family>
+      <pointsize>32</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">color: #A1A3A5;
-font: 40pt &quot;Menlo&quot;;
-qproperty-alignment: AlignRight;</string>
+font: 32pt &quot;Menlo&quot;;</string>
     </property>
     <property name="text">
      <string>0%</string>
     </property>
     <property name="textFormat">
      <enum>Qt::RichText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
     </property>
    </widget>
    <widget class="QPushButton" name="solveButton">

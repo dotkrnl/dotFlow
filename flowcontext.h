@@ -14,7 +14,7 @@ class FlowContext : public QObject
 
 public:
     explicit FlowContext(FlowBoard *mother, QObject *parent = 0);
-    FlowContext(const FlowContext &o, QObject *parent = 0);
+    FlowContext(const FlowContext &o);
 
     void addRoute(int color, PointSeries route);
     void cloneTo(FlowContext &dest, bool update = true) const;

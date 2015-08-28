@@ -11,7 +11,7 @@ FlowContext::FlowContext(FlowBoard *mother, QObject *parent)
     initFlowContext(m_board->getColorCount());
 }
 
-FlowContext::FlowContext(const FlowContext &o, QObject *parent)
+FlowContext::FlowContext(const FlowContext &o)
 {
     o.cloneTo(*this);
 }

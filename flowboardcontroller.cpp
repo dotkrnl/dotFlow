@@ -5,7 +5,7 @@
 FlowBoardController::FlowBoardController(QObject *parent)
     : QObject(parent),
       m_board(new FlowBoard(this)),
-      m_settings(new QSettings(this))
+      m_settings(new QSettings("dotKrnl", "dotFlow", this))
 {
     QDirIterator it(GAMEINFO_DIR);
     while (it.hasNext())
