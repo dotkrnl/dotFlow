@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSound>
 #include <QSoundEffect>
+#include <QMessageBox>
 
 #include "flowboardcontroller.h"
 #include "flowcontextcontroller.h"
@@ -41,7 +42,10 @@ public slots:
     void shouldDoRandom(void);
     void shouldDoNextLevel(void);
     void shouldDoGameWon(void);
+    void shouldDoReset(void);
     void shouldPrepareForGame(void);
+
+    void hintsDismissed(void);
 
 };
 

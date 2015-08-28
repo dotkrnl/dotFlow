@@ -21,10 +21,11 @@ private:
 signals:
     void nextLevelClicked(void);
     void randomLevelClicked(void);
+    void restartLevelClicked(void);
 
 public slots:
     void setMoves(int moves);
-    void setBest(int best);
+    void setBest(int best, bool perfect);
 };
 
 #endif // WINWIDGET_H

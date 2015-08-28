@@ -11,6 +11,8 @@ WinWidget::WinWidget(QWidget *parent) :
             this, SIGNAL(nextLevelClicked()));
     connect(ui->randomButton, SIGNAL(clicked(bool)),
             this, SIGNAL(randomLevelClicked()));
+    connect(ui->restartButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(restartLevelClicked()));
 }
 
 WinWidget::~WinWidget()
@@ -23,7 +25,16 @@ void WinWidget::setMoves(int moves)
     ui->moveCount->setText(QString::number(moves));
 }
 
-void WinWidget::setBest(int best)
+void WinWidget::setBest(int best, bool perfect)
 {
     ui->bestCount->setText(QString::number(best));
+    if (perfect) {
+        ui->star_perfect->show();
+        ui->restartButton->hide();
+        ui->randomButton->show();
+    } else {
+        ui->star_perfect->hide();
+        ui->restartButton->show();
+        ui->randomButton->hide();
+    }
 }

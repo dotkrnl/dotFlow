@@ -65,7 +65,7 @@ public slots:
     void endRoute(void);
 
     void stableRatioChanged(double ratio);
-    void linkForFirstLevel(int level);
+    void linkForFirstLevel(void);
 };
 
 #endif // FLOWCONTEXTCONTROLLER_H

@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(shouldDoRandom()));
     connect(ui->winWidget, SIGNAL(nextLevelClicked()),
             this, SLOT(shouldDoNextLevel()));
+    connect(ui->winWidget, SIGNAL(restartLevelClicked()),
+            this, SLOT(shouldDoRestart()));
 
     connect(ui->levelWidget, SIGNAL(selected(int)),
             m_board, SLOT(select(int)));
@@ -62,11 +64,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->levelWidget, SIGNAL(randomClicked()),
             this, SLOT(shouldDoRandom()));
     connect(ui->levelWidget, SIGNAL(resetClicked()),
-            m_board, SLOT(initGame()));
+            this, SLOT(shouldDoReset()));
 
-    connect(m_board, SIGNAL(levelChanged(int)),
-            m_game, SLOT(linkForFirstLevel(int)));
-    m_game->linkForFirstLevel(m_board->current());
+    connect(ui->hintsWidget, SIGNAL(dismissed()),
+            this, SLOT(hintsDismissed()));
     connect(m_board, SIGNAL(gameInitialized()),
             ui->hintsWidget, SLOT(show()));
 
@@ -78,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->solveButton, SIGNAL(clicked(bool)),
             m_sound_click, SLOT(play()));
     connect(ui->winWidget, SIGNAL(randomLevelClicked()),
+            m_sound_click, SLOT(play()));
+    connect(ui->winWidget, SIGNAL(restartLevelClicked()),
             m_sound_click, SLOT(play()));
     connect(ui->winWidget, SIGNAL(nextLevelClicked()),
             m_sound_click, SLOT(play()));
@@ -135,12 +138,31 @@ void MainWindow::shouldDoGameWon(void)
     m_sound_won->play();
     m_board->updateBest(m_game->getMoves(),
         m_game->getMoves() == m_board->getBoard()->getColorCount());
-    ui->winWidget->setBest(m_board->getBest());
+    bool perfect = m_board->getPerfect()
+            && m_board->getBest() == m_game->getMoves();
+    ui->winWidget->setBest(m_board->getBest(), perfect);
     ui->winWidget->show();
+}
+
+void MainWindow::shouldDoReset(void)
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(
+                this, "Danger!", "Are you sure to reset game saves?",
+                QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        m_board->initGame();
+    }
 }
 
 void MainWindow::shouldPrepareForGame(void)
 {
     ui->winWidget->hide();
     ui->levelWidget->hide();
+}
+
+void MainWindow::hintsDismissed(void)
+{
+    if (m_board->current() == 0)
+        m_game->linkForFirstLevel();
 }

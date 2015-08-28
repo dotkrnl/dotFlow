@@ -20,6 +20,9 @@ protected:
 
 private:
     Ui::HintsWidget *ui;
+
+signals:
+    void dismissed(void);
 };
 
 #endif // HINTSWIDGET_H

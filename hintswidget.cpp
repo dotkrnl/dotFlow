@@ -16,4 +16,5 @@ HintsWidget::~HintsWidget()
 void HintsWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     hide();
+    emit dismissed();
 }
