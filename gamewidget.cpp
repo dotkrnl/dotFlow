@@ -2,7 +2,8 @@
 
 GameWidget::GameWidget(QWidget *parent)
     : QWidget(parent),
-      m_mouse_color(-1)
+      m_mouse_color(-1),
+      m_pressed(false)
 {
 }
 

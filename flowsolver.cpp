@@ -6,8 +6,6 @@ FlowSolver::FlowSolver(FlowBoard *board, QObject *parent)
 {
 }
 
-#include <QDebug>
-
 FlowContext FlowSolver::solve(void)
 {
     m_pairs = m_board->getDotPairs();
