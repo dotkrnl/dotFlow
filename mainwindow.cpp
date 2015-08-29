@@ -63,6 +63,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(shouldDoRestart()));
     connect(ui->levelWidget, SIGNAL(randomClicked()),
             this, SLOT(shouldDoRandom()));
+    connect(ui->levelWidget, SIGNAL(loadClicked()),
+            m_board, SLOT(loadExternal()));
     connect(ui->levelWidget, SIGNAL(resetClicked()),
             this, SLOT(shouldDoReset()));
 

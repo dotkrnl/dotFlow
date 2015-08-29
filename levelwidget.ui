@@ -112,6 +112,7 @@ QPushButton:pressed
    <property name="styleSheet">
     <string notr="true">background-color: rgba(40, 41, 42, 240);</string>
    </property>
+   <zorder>loadButton</zorder>
   </widget>
   <widget class="QPushButton" name="randomButton">
    <property name="geometry">
@@ -239,12 +240,55 @@ QPushButton:pressed
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="loadButton">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>18</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>FontAwesome</family>
+     <pointsize>20</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	color: #A1A3A5;
+	font: 20pt &quot;FontAwesome&quot;;
+}
+
+QPushButton:hover
+{
+	color: #C1C3C5;
+}
+
+QPushButton:pressed
+{
+	color: #990000;
+}</string>
+   </property>
+   <property name="text">
+    <string></string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>listWidget</zorder>
   <zorder>widget</zorder>
   <zorder>hideButton</zorder>
   <zorder>randomButton</zorder>
   <zorder>resetButton</zorder>
   <zorder>restartButton</zorder>
+  <zorder>loadButton</zorder>
  </widget>
  <resources/>
  <connections/>

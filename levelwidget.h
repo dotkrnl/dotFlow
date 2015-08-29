@@ -37,6 +37,7 @@ signals:
     void hideClicked(void);
     void restartClicked(void);
     void randomClicked(void);
+    void loadClicked(void);
     void resetClicked(void);
 
 };

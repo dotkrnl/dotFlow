@@ -34,7 +34,8 @@ void FlowBoardController::next(void)
 
 void FlowBoardController::restart(void)
 {
-    select(current());
+    // select(current()); (not handled for extern file)
+    emit levelChanged(current());
 }
 
 int randInt(int low, int high)
@@ -52,6 +53,7 @@ void FlowBoardController::select(int level)
     if (level < 0) select(0);
     else if (level >= total()) select(total() - 1);
     else {
+        m_current_file = m_files[level];
         emit levelChanged(m_current = level);
         m_settings->setValue("last_level", level);
         m_settings->sync();
@@ -80,18 +82,24 @@ bool FlowBoardController::getPerfect(void)
 
 int FlowBoardController::getBest(int level)
 {
+    if (level == -1) return m_board->getColorCount(); // handle for external
+
     QString sl = QString::number(level);
     return m_settings->value("board_best/" + sl, 0).toInt();
 }
 
 bool FlowBoardController::getPerfect(int level)
 {
+    if (level == -1) return false; // handle for external
+
     QString sl = QString::number(level);
     return m_settings->value("board_perfect/" + sl, false).toBool();
 }
 
 void FlowBoardController::setBest(int level, int value, bool perfect)
 {
+    if (level == -1) return; // handle for external
+
     QString sl = QString::number(level);
     m_settings->setValue("board_best/" + sl, value);
     m_settings->setValue("board_perfect/" + sl, perfect);
@@ -108,7 +116,18 @@ void FlowBoardController::updateBest(int best, bool perfect)
 
 void FlowBoardController::loadBoard(void)
 {
-    QFile file(m_files[current()]);
+    QFile file(m_current_file);
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     m_board->loadFrom(&file);
+}
+
+void FlowBoardController::loadExternal(void)
+{
+    QString file = QFileDialog::getOpenFileName(NULL,
+        "Open Board File", "", "Board File (*.fb)");
+    QFileInfo check_file(file);
+    if (check_file.exists() && check_file.isFile()) {
+        m_current_file = file;
+        emit levelChanged(m_current = -1);
+    }
 }

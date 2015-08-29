@@ -6,6 +6,8 @@
 #include <QVector>
 #include <QDirIterator>
 #include <QSettings>
+#include <QFileDialog>
+#include <QFileInfo>
 
 #include "globalconstant.h"
 #include "flowboard.h"
@@ -31,7 +33,9 @@ protected:
     QVector<QString> m_files;
     FlowBoard *m_board;
     QSettings *m_settings;
+
     int m_current;
+    QString m_current_file;
 
     void setBest(int level, int value, bool perfect);
 
@@ -50,6 +54,7 @@ public slots:
 
     void initGame(void);
     void updateBest(int best, bool perfect);
+    void loadExternal(void);
 
 private slots:
     void loadBoard(void);

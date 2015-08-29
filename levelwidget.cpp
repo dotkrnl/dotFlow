@@ -24,6 +24,8 @@ LevelWidget::LevelWidget(QWidget *parent) :
             this, SIGNAL(restartClicked()));
     connect(ui->randomButton, SIGNAL(clicked(bool)),
             this, SIGNAL(randomClicked()));
+    connect(ui->loadButton, SIGNAL(clicked(bool)),
+            this, SIGNAL(loadClicked()));
     connect(ui->resetButton, SIGNAL(clicked(bool)),
             this, SIGNAL(resetClicked()));
 
