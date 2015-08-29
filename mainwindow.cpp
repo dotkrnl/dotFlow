@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_sound_won(new QSound(":/sound/res/won.wav", this)),
     m_sound_broke(new QSound(":/sound/res/broke.wav", this)),
     m_sound_connected(new QSound(":/sound/res/connected.wav", this)),
-    m_sound_click(new QSound(":/sound/res/click.wav", this))
+    m_sound_click(new QSound(":/sound/res/click.wav", this)),
+    m_solved(false)
 {
     ui->setupUi(this);
     setCursor(QCursor(Qt::CrossCursor));
@@ -47,8 +48,10 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->levelWidget, SLOT(show()));
     connect(ui->undoButton, SIGNAL(clicked(bool)),
             m_game, SLOT(undo()));
-    connect(ui->solveButton, SIGNAL(clicked(bool)),
+    connect(ui->solveButton, SIGNAL(pressed()),
             this, SLOT(shouldDoSolve()));
+    connect(ui->solveButton, SIGNAL(released()),
+            this, SLOT(shouldUndoSolve()));
 
     connect(ui->winWidget, SIGNAL(randomLevelClicked()),
             this, SLOT(shouldDoRandom()));
@@ -78,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
             m_sound_click, SLOT(play()));
     connect(ui->undoButton, SIGNAL(clicked(bool)),
             m_sound_click, SLOT(play()));
-    connect(ui->solveButton, SIGNAL(clicked(bool)),
+    connect(ui->solveButton, SIGNAL(pressed()),
             m_sound_click, SLOT(play()));
     connect(ui->winWidget, SIGNAL(randomLevelClicked()),
             m_sound_click, SLOT(play()));
@@ -117,7 +120,14 @@ void MainWindow::ratioChanged(double ratio)
 
 void MainWindow::shouldDoSolve(void)
 {
-    m_game->solve();
+    m_elapsed.start();
+    m_game->solve(m_solved = !m_solved);
+}
+
+void MainWindow::shouldUndoSolve(void)
+{
+    if (m_elapsed.elapsed() > 200)
+        m_game->solve(m_solved = false);
 }
 
 void MainWindow::shouldDoRestart(void)
@@ -127,6 +137,7 @@ void MainWindow::shouldDoRestart(void)
 
 void MainWindow::shouldDoRandom(void)
 {
+    m_elapsed.start();
     m_board->random();
 }
 

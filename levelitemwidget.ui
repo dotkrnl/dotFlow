@@ -35,9 +35,6 @@ font: &quot;Managed in levelitemwidget.cpp&quot;;</string>
       <height>61</height>
      </rect>
     </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: #F1F3F5;
 background-color: none;
@@ -46,9 +43,6 @@ border: none;</string>
     </property>
     <property name="text">
      <string>4</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::RichText</enum>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

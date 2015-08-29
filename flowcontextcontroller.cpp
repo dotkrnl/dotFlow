@@ -18,14 +18,13 @@ FlowContextController::FlowContextController(FlowBoard *mother, QObject *parent)
     setMoves(0);
 }
 
-void FlowContextController::solve(void)
+void FlowContextController::solve(bool to_solve)
 {
-    const double EPS = 1E-8;
-    if (m_beta->getRatio() > 1 - EPS) {
-        m_stable->cloneTo(*m_beta);
-    } else {
+    if (to_solve) {
         FlowContext answer = m_solver->solve();
         answer.cloneTo(*m_beta);
+    } else {
+        m_stable->cloneTo(*m_beta);
     }
 }
 
@@ -58,7 +57,7 @@ void FlowContextController::startRoute(QPoint location)
     if (!isInRange(location)) return;
 
     int dot_color = m_board->getColorAt(location);
-    int context_color = m_beta->getColorAt(location);
+    int context_color = m_stable->getColorAt(location);
     int color = dot_color != -1 ?
                 dot_color : context_color;
 
@@ -79,10 +78,11 @@ void FlowContextController::startRoute(QPoint location)
 
     if (dot_color != -1)
         // is a terminal
-        m_current_route.resize(0);
+        m_current_route.clear();
     else
         // is on a existing route
-        m_current_route = m_beta->getRouteOf(color);
+        m_current_route = m_stable->getRouteOf(color);
+    m_stable->clearRouteOf(color);
 
     newRoutePoint(location);
 }

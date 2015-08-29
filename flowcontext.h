@@ -22,6 +22,7 @@ public:
     double getRatio(void) const;
     int getColorAt(QPoint location) const;
     PointSeries getRouteOf(int color) const;
+    void clearRouteOf(int color);
 
     bool isTruncatedComparedTo(const FlowContext &ot) const;
 

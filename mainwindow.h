@@ -5,6 +5,7 @@
 #include <QSound>
 #include <QSoundEffect>
 #include <QMessageBox>
+#include <QTime>
 
 #include "flowboardcontroller.h"
 #include "flowcontextcontroller.h"
@@ -33,11 +34,15 @@ private:
            *m_sound_connected,
            *m_sound_click;
 
+    QTime m_elapsed;
+    bool m_solved;
+
 public slots:
     void movesChanged(int moves);
     void ratioChanged(double ratio);
 
     void shouldDoSolve(void);
+    void shouldUndoSolve(void);
     void shouldDoRestart(void);
     void shouldDoRandom(void);
     void shouldDoNextLevel(void);

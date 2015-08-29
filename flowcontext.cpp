@@ -18,7 +18,7 @@ FlowContext::FlowContext(const FlowContext &o)
 
 void FlowContext::initFlowContext(int color_count)
 {
-    m_context.resize(0);
+    m_context.clear();
     m_context.resize(color_count);
     emit contextUpdated();
 }
@@ -36,6 +36,12 @@ int FlowContext::getColorAt(QPoint location) const
 PointSeries FlowContext::getRouteOf(int color) const
 {
     return m_context[color];
+}
+
+void FlowContext::clearRouteOf(int color)
+{
+    m_context[color].clear();
+    emit contextUpdated();
 }
 
 bool FlowContext::isTruncatedComparedTo(const FlowContext &ot) const

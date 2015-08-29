@@ -56,7 +56,7 @@ signals:
     void gameWon(void);
 
 public slots:
-    void solve(void);
+    void solve(bool to_solve);
     void restart(void);
     void undo(void);
 
