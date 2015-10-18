@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/fonts">
         <file>res/fontawesome.ttf</file>
-        <file>res/menlo-bold.ttf</file>
-        <file>res/menlo.ttf</file>
     </qresource>
 </RCC>
